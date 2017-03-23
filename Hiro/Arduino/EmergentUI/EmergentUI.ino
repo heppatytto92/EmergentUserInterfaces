@@ -35,7 +35,7 @@ void setup(){
 void loop(){
   // Pressure sensor value
   fsrReading = analogRead(fsrAnalogPin);
-  Serial.print("Analog reading = ");
+  Serial.print("Pressure: ");
   Serial.println(fsrReading);
 
   // Prox sensor
@@ -44,7 +44,7 @@ void loop(){
   // Accelerometor
   READ_Accelerometor();
   
-  delay(2000);
+  delay(300);
 }
 
 
@@ -80,9 +80,9 @@ void READ_ProximitySensor()
     else
     {
       Distance=DistanceMeasured/50;           // every 50us low level stands for 1cm
-      Serial.print("Distance=");
+      Serial.print("Distance: ");
       Serial.print(Distance);
-      Serial.println("cm");
+      Serial.println(""); 
     }
 
 }
@@ -113,12 +113,13 @@ void READ_Accelerometor()
   GyX=Wire.read()<<8|Wire.read();  // 0x43 (GYRO_XOUT_H) & 0x44 (GYRO_XOUT_L)
   GyY=Wire.read()<<8|Wire.read();  // 0x45 (GYRO_YOUT_H) & 0x46 (GYRO_YOUT_L)
   GyZ=Wire.read()<<8|Wire.read();  // 0x47 (GYRO_ZOUT_H) & 0x48 (GYRO_ZOUT_L)
-  Serial.print("AcX = "); Serial.print(AcX);
-  Serial.print(" | AcY = "); Serial.print(AcY);
-  Serial.print(" | AcZ = "); Serial.print(AcZ);
-  Serial.print(" | Tmp = "); Serial.print(Tmp/340.00+36.53);  //equation for temperature in degrees C from datasheet
-  Serial.print(" | GyX = "); Serial.print(GyX);
-  Serial.print(" | GyY = "); Serial.print(GyY);
-  Serial.print(" | GyZ = "); Serial.println(GyZ);
+  Serial.print("AcX: "); Serial.print(AcX);
+  Serial.print(" , AcY: "); Serial.print(AcY);
+  Serial.print(" , AcZ: "); Serial.print(AcZ);
+  //Serial.print(" , Tmp: "); Serial.print(Tmp/340.00+36.53);  //equation for temperature in degrees C from datasheet
+  Serial.print(" , GyX: "); Serial.print(GyX);
+  Serial.print(" , GyY: "); Serial.print(GyY);
+  Serial.print(" , GyZ: "); Serial.println(GyZ);
+  Serial.println(""); 
 }
 
