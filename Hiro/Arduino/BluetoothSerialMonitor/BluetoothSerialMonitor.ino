@@ -38,10 +38,10 @@ void setup()
 void loop()
 {
   fsrReading = analogRead(fsrAnalogPin);
-  Serial.print("Pressure: ");
-  Serial.println(fsrReading);
+  //Serial.print("Pressure: ");
+  //Serial.println(fsrReading);
 
   bluetooth.println(fsrReading);
-  delay(100);
+  delay(3000);
 }
 
