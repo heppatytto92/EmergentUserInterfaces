@@ -1,0 +1,43 @@
+%%读入图像
+I_gray=imread('test2.JPG');
+level=graythresh(I_gray);  %%求二值化的阈值; 
+bw=im2bw(I_gray,level);    %%二值化图像
+[L,num]=bwlabel(bw,4);     %%标注二进制图像中已连接的部分
+
+%%求质心
+sum_x=0;sum_y=0;area=0;
+[height,width]=size(bw);
+zone=zeros(num,1);    
+
+%%质心坐标
+for q=1:num
+    for i=1:height
+        for j=1:width
+            if L(i,j)==q
+                sum_x=sum_x+i;
+                sum_y=sum_y+j;
+                area=area+1;
+            end
+        end
+    end
+    
+    if((sum_y/area) < height/2)
+       if((sum_x/area)< width/3)
+           zone(q,1)=1;
+       elseif((sum_x/area)> ((width*2)/3))
+           zone(q,1)=3;
+       else
+           zone(q,1)=2;
+       end
+    else
+       if((sum_x/area)< width/3)
+           zone(q,1)=4;
+       elseif((sum_x/area)> ((width*2)/3))
+           zone(q,1)=6;
+       else
+           zone(q,1)=5;
+       end
+    end
+end
+
+   
