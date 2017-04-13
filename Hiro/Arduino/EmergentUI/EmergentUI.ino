@@ -25,7 +25,7 @@ void setup(){
 
 // setup for proximity sensor
   PWM_Mode_Setup();
-  
+
   Serial.begin(9600);
 
 }
@@ -36,32 +36,30 @@ void loop(){
   // Pressure sensor value
   fsrReading = analogRead(fsrAnalogPin);
   Serial.print("Pressure: ");
-  Serial.println(fsrReading);
-
+  //Serial.println(fsrReading);
+  Serial.print(fsrReading);
   // Prox sensor
-   READ_ProximitySensor();
+  // READ_ProximitySensor();
 
   // Accelerometor
   READ_Accelerometor();
-  
-  delay(300);
+  delay(500);
 }
-
 
 
 // PWM Mode setup for proximity sensor
 
 void PWM_Mode_Setup()
-{ 
+{
   pinMode(URTRIG,OUTPUT);                     // A low pull on pin COMP/TRIG
   digitalWrite(URTRIG,HIGH);                  // Set to HIGH
-  
+
   pinMode(URPWM, INPUT);                      // Sending Enable PWM mode command
-  
+
   for(int i=0;i<4;i++)
   {
       Serial.write(EnPwmCmd[i]);
-  } 
+  }
 }
 
 // A function to read proximity sensor value
@@ -70,19 +68,18 @@ void READ_ProximitySensor()
 {                              // a low pull on pin COMP/TRIG  triggering a sensor reading
     digitalWrite(URTRIG, LOW);
     digitalWrite(URTRIG, HIGH);               // reading Pin PWM will output pulses
-     
+
     unsigned long DistanceMeasured=pulseIn(URPWM,LOW);
-     
+
     if(DistanceMeasured>=10200)
     {              // the reading is invalid.
-      Serial.println("Invalid");    
+      Serial.println("Invalid");
     }
     else
     {
       Distance=DistanceMeasured/50;           // every 50us low level stands for 1cm
       Serial.print("Distance: ");
       Serial.print(Distance);
-      Serial.println(""); 
     }
 
 }
@@ -106,20 +103,18 @@ void READ_Accelerometor()
   Wire.write(0x3B);  // starting with register 0x3B (ACCEL_XOUT_H)
   Wire.endTransmission(false);
   Wire.requestFrom(MPU_addr,14,true);  // request a total of 14 registers
-  AcX=Wire.read()<<8|Wire.read();  // 0x3B (ACCEL_XOUT_H) & 0x3C (ACCEL_XOUT_L)    
+  AcX=Wire.read()<<8|Wire.read();  // 0x3B (ACCEL_XOUT_H) & 0x3C (ACCEL_XOUT_L)
   AcY=Wire.read()<<8|Wire.read();  // 0x3D (ACCEL_YOUT_H) & 0x3E (ACCEL_YOUT_L)
   AcZ=Wire.read()<<8|Wire.read();  // 0x3F (ACCEL_ZOUT_H) & 0x40 (ACCEL_ZOUT_L)
   Tmp=Wire.read()<<8|Wire.read();  // 0x41 (TEMP_OUT_H) & 0x42 (TEMP_OUT_L)
   GyX=Wire.read()<<8|Wire.read();  // 0x43 (GYRO_XOUT_H) & 0x44 (GYRO_XOUT_L)
   GyY=Wire.read()<<8|Wire.read();  // 0x45 (GYRO_YOUT_H) & 0x46 (GYRO_YOUT_L)
   GyZ=Wire.read()<<8|Wire.read();  // 0x47 (GYRO_ZOUT_H) & 0x48 (GYRO_ZOUT_L)
-  Serial.print("AcX: "); Serial.print(AcX);
-  Serial.print(" , AcY: "); Serial.print(AcY);
-  Serial.print(" , AcZ: "); Serial.print(AcZ);
-  //Serial.print(" , Tmp: "); Serial.print(Tmp/340.00+36.53);  //equation for temperature in degrees C from datasheet
-  Serial.print(" , GyX: "); Serial.print(GyX);
-  Serial.print(" , GyY: "); Serial.print(GyY);
-  Serial.print(" , GyZ: "); Serial.println(GyZ);
-  Serial.println(""); 
+  Serial.print(", AcX: "); Serial.print(AcX);
+  Serial.print(", AcY: "); Serial.print(AcY);
+  Serial.print(", AcZ: "); Serial.print(AcZ);
+  //Serial.print(", Tmp: "); Serial.print(Tmp/340.00+36.53);  //equation for temperature in degrees C from datasheet
+  Serial.print(", GyX: "); Serial.print(GyX);
+  Serial.print(", GyY: "); Serial.print(GyY);
+  Serial.print(", GyZ: "); Serial.println(GyZ);
 }
-
