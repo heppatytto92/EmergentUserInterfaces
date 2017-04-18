@@ -16,7 +16,6 @@ while true
     out = fscanf(s);
     fprintf(out);
     pause(0.1)
-    
+
 end
 fclose(s);
-

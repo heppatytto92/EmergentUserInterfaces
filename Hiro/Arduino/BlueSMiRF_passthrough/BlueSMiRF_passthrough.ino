@@ -16,6 +16,9 @@ int bluetoothRx = 4;  // RX-I pin of bluetooth mate, Arduino D3
 
 SoftwareSerial bluetooth(bluetoothTx, bluetoothRx);
 
+int fsrAnalogPin = 0; // FSR is connected to analog 0
+int fsrReading;      // the analog reading from the FSR resistor divider
+
 void setup()
 {
   Serial.begin(9600);  // Begin the serial monitor at 9600bps
@@ -40,6 +43,7 @@ void loop()
     // Send any characters the Serial monitor prints to the bluetooth
     bluetooth.print((char)Serial.read());
   }
-  // and loop forever and ever!
+  // and loop forever and ever
+  
 }
 
