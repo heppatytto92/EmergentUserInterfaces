@@ -7,8 +7,10 @@
 //     Gyro sensor (Position): 0 / 1 / 2 / 3 / 4 / 5 <= These are corresponding to something like dice
 // The output format is "Bool(pressure), Bool(movement), Int(position)", for example, "1, 0, 5"
 
+
 // This library allows you to communicate with I2C / TWI devices.
 #include<Wire.h>
+#include<Tone.h>
 
 //setup variables for accelerometer and gyro sensor
 const int MPU_addr=0x68;  // I2C address of the MPU-6050
@@ -24,14 +26,22 @@ int fsrAnalogPin = 0; // FSR is connected to analog 0
 bool mov;
 int pos = 1;
 
+// setup Tone object
+Tone tone1;
+Tone tone2;
+Tone tone3;
 
 void setup(){
 // Accelerometer setup
   I2C_Mode_Setup();
-
+  tone1.begin(13);
+  tone2.begin(12); 
+  
   Serial.begin(9600);
 
 }
+
+
 
 // Main function
 
@@ -42,7 +52,91 @@ void loop(){
   Serial.print(READ_Accelerometor());
   Serial.print(", ");
   Serial.println(READ_Gyro());
-  delay(1000);
+
+  int val = READ_Gyro();
+  
+  if ((READ_Pressure() == true) && (READ_Accelerometor() == false))
+  {
+    switch(val) {
+      case 1:
+        tone1.play(NOTE_B3, 300);
+        tone2.play(NOTE_B4, 300);
+        break;
+      case 2:
+        tone1.play(NOTE_A3, 300);
+        tone2.play(NOTE_A4, 300);
+        break;
+      case 3:
+        tone1.play(NOTE_C3, 300);
+        tone2.play(NOTE_C4, 300);
+        break;
+      case 4:
+        tone1.play(NOTE_D3, 300);
+        tone2.play(NOTE_D4, 300);
+        break;
+      case 5:
+        tone1.play(NOTE_E3, 300);
+        tone2.play(NOTE_E4, 300);
+        break;
+      case 6:
+        tone1.play(NOTE_F3, 300);
+        tone2.play(NOTE_F4, 300);
+        break;
+      default:
+        break;
+    }
+  } 
+  else if ((READ_Pressure() == true) && (READ_Accelerometor() == true))
+  {
+    switch(val) {
+      case 1:
+        for(int x = 0; x < 20; x++){
+        tone1.play(NOTE_B3, 30);
+        tone2.play(NOTE_B4, 30);
+        delay(30);
+        }
+        break;
+      case 2:
+        for(int x = 0; x < 20; x++){
+        tone1.play(NOTE_A3, 30);
+        tone2.play(NOTE_A4, 30);
+        delay(30);
+        }
+        break;
+      case 3:
+        for(int x = 0; x < 20; x++){
+        tone1.play(NOTE_C3, 30);
+        tone2.play(NOTE_C4, 30);
+        delay(30);
+        }
+        break;
+      case 4:
+        for(int x = 0; x < 20; x++){
+        tone1.play(NOTE_D3, 30);
+        tone2.play(NOTE_D4, 30);
+        delay(30);
+        }
+        break;
+      case 5:
+        for(int x = 0; x < 20; x++){
+        tone1.play(NOTE_E3, 30);
+        tone2.play(NOTE_E4, 30);
+        delay(30);
+        }
+        break;
+      case 6:
+        for(int x = 0; x < 20; x++){
+        tone1.play(NOTE_F3, 30);
+        tone2.play(NOTE_F4, 30);
+        delay(30);
+        }
+        break;
+      default:
+        break;
+    }
+  }
+  
+  delay(100);
 }
 
 
@@ -138,3 +232,5 @@ int READ_Gyro()
   }
   return pos;
 }
+
+
